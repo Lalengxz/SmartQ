@@ -1,0 +1,16 @@
+.top-bar {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+
+  width: 70%;
+  margin: 20px auto;
+  border-radius: var(--radius-lg);
+}
+
+.logo {
+  display: flex;
+
+
+}
