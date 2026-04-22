@@ -37,7 +37,7 @@
 		<div class="hero">
 			<div class="hero-content">
 				<h1>SmartQ - Efficient Queuing System</h1>
-				<p>SmartQ is a modern queuing system that helps businesses manage their customers efficiently.</p>
+				<p>SmartQ is a modern queuing system for student ID validation in BukSU.</p>
 				<div class="hero-btns">
 					<a href="#" class="btn-hero-primary">Get Started</a>
 					<a href="#" class="btn-hero-secondary">Learn More</a>
