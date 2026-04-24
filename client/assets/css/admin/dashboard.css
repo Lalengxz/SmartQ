@@ -1,25 +1,353 @@
 /* ============================================================
-   Dashboard Page Styles
+   SmartQ Admin Dashboard
+   Layout: 3-row stacked design
+   Row 1 → Stat cards (horizontal strip)
+   Row 2 → Graph (left) + Colleges (right)
+   Row 3 → Recent Activity (full width)
    ============================================================ */
 
-/* ── Stats Grid ──────────────────────────────────────────── */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+/* ── Dashboard Container ────────────────────────────────────── */
+.dash {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-lg);
-  margin-bottom: var(--space-xl);
+  padding: 0 var(--space-xl) var(--space-xl);
 }
 
-/* ── Dashboard Panels ────────────────────────────────────── */
-.dashboard-panels {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-lg);
+/* Override .admin-content padding when using .dash */
+.admin-content.dash {
+  padding: 0 var(--space-xl) var(--space-xl);
 }
 
-/* For future: two-column panel layout */
-@media (min-width: 1024px) {
-  .dashboard-panels.two-col {
-    grid-template-columns: 2fr 1fr;
+
+/* ═══════════════════════════════════════════════════════════════
+   ROW 1 — STAT CARDS (horizontal strip)
+   ═══════════════════════════════════════════════════════════════ */
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+/* Ensure stat-card children fill their cell */
+.dash-stats>[data-component="stat-card"] {
+  min-width: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ROW 2 — PANELS (graph + colleges side by side)
+   ═══════════════════════════════════════════════════════════════ */
+.dash-panels {
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  /* Swapped ratio for Colleges on left, Graph on right */
+  gap: var(--space-lg);
+  align-items: stretch;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   GRAPH CARD
+   ═══════════════════════════════════════════════════════════════ */
+.graph-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.graph-card .widget-header {
+  flex-shrink: 0;
+  margin-bottom: var(--space-md);
+}
+
+.graph-period {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+  background: var(--bg-color);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.graph-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.graph-canvas {
+  flex: 1;
+  min-height: 200px;
+  /* Better default height */
+}
+
+.line-chart-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.grid-line {
+  stroke: var(--bg-muted);
+  stroke-width: 1;
+  stroke-dasharray: 4, 4;
+}
+
+.line-area {
+  fill: rgba(28, 90, 223, 0.08);
+}
+
+.line-stroke {
+  fill: none;
+  stroke: var(--primary-color);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.line-dot {
+  fill: var(--card-bg);
+  stroke: var(--primary-color);
+  stroke-width: 2.5;
+  cursor: pointer;
+  transition: r 0.2s ease;
+}
+
+.line-dot:hover {
+  r: 7;
+}
+
+.graph-x-labels {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--space-sm);
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.graph-summary {
+  display: flex;
+  gap: var(--space-xl);
+  padding-top: var(--space-lg);
+  margin-top: var(--space-xl);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.graph-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.graph-stat-value {
+  font-size: var(--font-md);
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.graph-stat-label {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   COLLEGES CARD
+   ═══════════════════════════════════════════════════════════════ */
+.colleges-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  padding: var(--space-lg);
+  /* Consistent padding */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.colleges-card .widget-header {
+  flex-shrink: 0;
+  margin-bottom: var(--space-sm);
+}
+
+.colleges-total {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+  background: var(--bg-color);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.colleges-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.college-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.college-item:last-child {
+  border-bottom: none;
+}
+
+.college-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.college-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.college-name {
+  font-size: var(--font-xs);
+  font-weight: 500;
+  color: var(--text-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.college-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.college-bar-track {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-color);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.college-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.college-count {
+  font-size: var(--font-xs);
+  font-weight: 700;
+  color: var(--text-main);
+  min-width: 35px;
+  text-align: right;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SHARED WIDGET HEADER
+   ═══════════════════════════════════════════════════════════════ */
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.widget-header h3 {
+  font-size: var(--font-base);
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLLBAR STYLING
+   ═══════════════════════════════════════════════════════════════ */
+.colleges-items::-webkit-scrollbar,
+.activity-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.colleges-items::-webkit-scrollbar-track,
+.activity-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.colleges-items::-webkit-scrollbar-thumb,
+.activity-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+}
+
+.colleges-items::-webkit-scrollbar-thumb:hover,
+.activity-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Tablet */
+@media (max-width: 1200px) {
+  .dash-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dash-panels {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .admin-content.dash {
+    padding: 0 var(--space-md) var(--space-md);
+  }
+
+  .dash {
+    gap: var(--space-md);
+  }
+
+  .dash-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .graph-summary {
+    flex-direction: column;
+    gap: var(--space-sm);
   }
 }
