@@ -219,7 +219,9 @@
   background-color: var(--bg-muted);
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-  width: 200px;
+  width: 250px;
+  height: 40px;
+  margin: -5px 0 0 10px;
 }
 
 .topbar-search input:focus {
@@ -247,6 +249,17 @@
   padding: 1px 5px;
   border-radius: var(--radius-full);
   line-height: 1.4;
+}
+
+.topbar-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-main);
+  transition: color var(--transition-fast);
+}
+
+.topbar-btn:hover .topbar-icon {
+  color: var(--primary-color);
 }
 
 .topbar-user {
@@ -400,11 +413,6 @@
   box-shadow: var(--shadow-sm);
   border: 1px solid rgba(0, 0, 0, 0.04);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
 }
 
 .stat-card-icon {
@@ -584,4 +592,275 @@
     padding: var(--space-md);
     box-shadow: var(--shadow-md);
   }
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   GRAPH CARD
+   ═══════════════════════════════════════════════════════════════ */
+.graph-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.graph-card .widget-header {
+  flex-shrink: 0;
+  margin-bottom: var(--space-md);
+}
+
+.graph-period {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+  background: var(--bg-color);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.graph-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.graph-canvas {
+  flex: 1;
+  min-height: 160px;
+  max-height: 240px;
+}
+
+.line-chart-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.grid-line {
+  stroke: var(--bg-muted);
+  stroke-width: 1;
+  stroke-dasharray: 4, 4;
+}
+
+.line-area {
+  fill: rgba(28, 90, 223, 0.08);
+}
+
+.line-stroke {
+  fill: none;
+  stroke: var(--primary-color);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.line-dot {
+  fill: var(--card-bg);
+  stroke: var(--primary-color);
+  stroke-width: 2.5;
+  cursor: pointer;
+  transition: r 0.2s ease;
+}
+
+.line-dot:hover {
+  r: 7;
+}
+
+.graph-x-labels {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--space-sm);
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.graph-summary {
+  display: flex;
+  gap: var(--space-xl);
+  padding-top: var(--space-lg);
+  margin-top: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.graph-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.graph-stat-value {
+  font-size: var(--font-md);
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.graph-stat-label {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   COLLEGES CARD
+   ═══════════════════════════════════════════════════════════════ */
+.colleges-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.colleges-card .widget-header {
+  flex-shrink: 0;
+  margin-bottom: var(--space-md);
+}
+
+.colleges-total {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+  background: var(--bg-color);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.colleges-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.college-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  margin-top: 7px;
+}
+
+.college-item:last-child {
+  border-bottom: none;
+}
+
+.college-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 1px;
+}
+
+.college-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.college-name {
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--text-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.college-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.college-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-color);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.college-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.college-count {
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--text-main);
+  min-width: 20px;
+  text-align: right;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SHARED WIDGET HEADER
+   ═══════════════════════════════════════════════════════════════ */
+.widget-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.widget-header h3 {
+  font-size: var(--font-base);
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLLBAR STYLING
+   ═══════════════════════════════════════════════════════════════ */
+.colleges-items::-webkit-scrollbar,
+.activity-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.colleges-items::-webkit-scrollbar-track,
+.activity-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.colleges-items::-webkit-scrollbar-thumb,
+.activity-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+}
+
+.colleges-items::-webkit-scrollbar-thumb:hover,
+.activity-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.15);
 }

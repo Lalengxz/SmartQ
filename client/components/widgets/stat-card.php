@@ -14,14 +14,16 @@
  *   - trend : Optional trend indicator (e.g. "+12%")
  */
 
-$icon  = isset($_GET['icon'])  ? htmlspecialchars($_GET['icon'])  : '📊';
+$icon = isset($_GET['icon']) ? htmlspecialchars($_GET['icon']) : '';
 $label = isset($_GET['label']) ? htmlspecialchars($_GET['label']) : 'Stat';
 $value = isset($_GET['value']) ? htmlspecialchars($_GET['value']) : '—';
 $trend = isset($_GET['trend']) ? htmlspecialchars($_GET['trend']) : '';
 ?>
 
 <div class="stat-card">
-  <div class="stat-card-icon"><?= $icon ?></div>
+  <?php if ($icon): ?>
+    <div class="stat-card-icon"><?= $icon ?></div>
+  <?php endif; ?>
   <div class="stat-card-body">
     <p class="stat-card-label"><?= $label ?></p>
     <h3 class="stat-card-value"><?= $value ?></h3>
