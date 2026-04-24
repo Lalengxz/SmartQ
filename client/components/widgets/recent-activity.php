@@ -25,14 +25,14 @@
     <li class="activity-item">
       <span class="activity-icon"></span>
       <div class="activity-details">
-        <p class="activity-text">Queue #45 completed</p>
+        <p class="activity-text">Student validated</p>
         <span class="activity-time">10 minutes ago</span>
       </div>
     </li>
     <li class="activity-item">
       <span class="activity-icon"></span>
       <div class="activity-details">
-        <p class="activity-text">System settings updated</p>
+        <p class="activity-text">New queue added</p>
         <span class="activity-time">1 hour ago</span>
       </div>
     </li>
