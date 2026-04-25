@@ -31,37 +31,44 @@ session_start();
       <?php if (isset($_SESSION['error'])): ?>
         <div class="auth-alert auth-alert-error">
           <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path
+              d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
           </svg>
-          <?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?>
+          <?php echo htmlspecialchars($_SESSION['error']);
+          unset($_SESSION['error']); ?>
         </div>
       <?php endif; ?>
 
       <?php if (isset($_SESSION['success'])): ?>
         <div class="auth-alert auth-alert-success">
           <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path
+              d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
           </svg>
-          <?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?>
+          <?php echo htmlspecialchars($_SESSION['success']);
+          unset($_SESSION['success']); ?>
         </div>
       <?php endif; ?>
 
       <form action="../../server/api/auth/signup_handler.php" method="POST">
         <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
         <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
-        <input type="number" class="form-control" name="studentid" placeholder="Student ID" required minlength="10" maxlength="10">
+        <input type="number" class="form-control" name="studentid" placeholder="Student ID" required minlength="10"
+          maxlength="10">
         <input type="email" class="form-control" name="email" placeholder="Email" required>
         <input type="password" class="form-control" name="password" placeholder="Password" required minlength="6">
+        <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required
+          minlength="6">
         <select class="form-control" name="college" required>
           <option value="" disabled selected>Select College</option>
-          <option value="1">College of Technology (COT)</option>
-          <option value="2">College of Arts and Sciences (CAS)</option>
-          <option value="3">College of Business (COB)</option>
-          <option value="4">College of Education (COE)</option>
-          <option value="5">College of Nursing (CN)</option>
-          <option value="6">College of Public Administration and Governance (CPAG)</option>
+          <option value="101">College of Technology (COT)</option>
+          <option value="106">College of Arts and Sciences (CAS)</option>
+          <option value="103">College of Business (COB)</option>
+          <option value="104">College of Education (COE)</option>
+          <option value="102">College of Nursing (CN)</option>
+          <option value="105">College of Public Administration and Governance (CPAG)</option>
         </select>
         <button type="submit" class="auth-btn">Sign Up</button>
       </form>
@@ -81,7 +88,14 @@ session_start();
           setTimeout(() => alert.remove(), 300);
         }, 4000);
       });
+
+      if (password.value !== confirmPassword.value) {
+        event.preventDefault(); // stop form submission
+        alert("Passwords do not match!");
+      }
+
     });
   </script>
 </body>
+
 </html>

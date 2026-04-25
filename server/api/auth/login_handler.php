@@ -1,38 +1,39 @@
 <?php
 session_start();
-// Enable error reporting for debugging
+// Enable error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include_once '../../config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $login_input = $_POST['username']; // This could be email or username
+    $login_input = $_POST['studentid'];
     $password = $_POST['password'];
 
     $database = new Database();
     $db = $database->getConnection();
 
-    // 1. Try checking Admin table
-    $query = "SELECT amdin_id as id, first_name, last_name, email, admin_pass as password FROM admin WHERE email = :email LIMIT 1";
+    // 1. Try checking Admin table (STRICT: email only for admin)
+    $query = "SELECT amdin_id as id, first_name, last_name, email, admin_pass as password FROM admin WHERE email = :input OR amdin_id = :input LIMIT 1";
     $stmt = $db->prepare($query);
-    $stmt->bindParam(':email', $login_input);
+    $stmt->bindParam(':input', $login_input);
     $stmt->execute();
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     $role = 'admin';
 
-    // 2. If not found in Admin, try Students table
+    // 2. If not found in Admin, try Students table (Check email OR student_id)
     if (!$user) {
-        $query = "SELECT student_id as id, first_name, last_name, email, student_pass as password FROM students WHERE email = :email LIMIT 1";
+        $query = "SELECT student_id as id, first_name, last_name, email, student_pass as password FROM students 
+                  WHERE email = :input OR student_id = :input LIMIT 1";
         $stmt = $db->prepare($query);
-        $stmt->bindParam(':email', $login_input);
+        $stmt->bindParam(':input', $login_input);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         $role = 'student';
     }
 
-    // 3. Verify password (supporting both plaintext for legacy and hashed for security)
+    // 3. Verify password
     if ($user && ($password === $user['password'] || password_verify($password, $user['password']))) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['first_name'] = $user['first_name'];
@@ -44,12 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($role === 'admin') {
             header('Location: ../../../client/pages/admin/dashboard.php');
         } else {
-            // Redirect students to their landing page (adjust as needed)
-            header('Location: ../../../client/index.php');
+            header('Location: ../../../client/pages/users/student-dashboard.php');
         }
         exit();
     } else {
-        $_SESSION['error'] = "Invalid email or password";
+        $_SESSION['error'] = "Invalid ID/Email or Password";
         header('Location: ../../../client/pages/login.php');
         exit();
     }
