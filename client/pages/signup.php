@@ -51,11 +51,18 @@ session_start();
       <form action="../../server/api/auth/signup_handler.php" method="POST">
         <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
         <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
-        <input type="text" class="form-control" name="username" placeholder="Username" required>
+        <input type="number" class="form-control" name="studentid" placeholder="Student ID" required minlength="10" maxlength="10">
         <input type="email" class="form-control" name="email" placeholder="Email" required>
         <input type="password" class="form-control" name="password" placeholder="Password" required minlength="6">
-        <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required
-          minlength="6">
+        <select class="form-control" name="college" required>
+          <option value="" disabled selected>Select College</option>
+          <option value="1">College of Technology (COT)</option>
+          <option value="2">College of Arts and Sciences (CAS)</option>
+          <option value="3">College of Business (COB)</option>
+          <option value="4">College of Education (COE)</option>
+          <option value="5">College of Nursing (CN)</option>
+          <option value="6">College of Public Administration and Governance (CPAG)</option>
+        </select>
         <button type="submit" class="auth-btn">Sign Up</button>
       </form>
 

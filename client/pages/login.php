@@ -48,7 +48,7 @@ session_start();
       <?php endif; ?>
 
       <form action="../../server/api/auth/login_handler.php" method="POST">
-        <input name="username" type="text"     class="form-control" placeholder="Username" required>
+        <input name="studentid" type="number" class="form-control" placeholder="Student ID" required minlength="10" maxlength="10">
         <input name="password" type="password" class="form-control" placeholder="Password" required minlength="6">
         <button type="submit" class="auth-btn">Login</button>
       </form>
