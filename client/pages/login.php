@@ -47,7 +47,7 @@ session_start();
         </div>
       <?php endif; ?>
 
-      <form action="validate/validate.php" method="POST">
+      <form action="../../server/api/auth/login_handler.php" method="POST">
         <input name="username" type="text"     class="form-control" placeholder="Username" required>
         <input name="password" type="password" class="form-control" placeholder="Password" required minlength="6">
         <button type="submit" class="auth-btn">Login</button>

@@ -48,7 +48,7 @@ session_start();
         </div>
       <?php endif; ?>
 
-      <form action="validate/signup-validate.php" method="POST">
+      <form action="../../server/api/auth/signup_handler.php" method="POST">
         <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
         <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
         <input type="text" class="form-control" name="username" placeholder="Username" required>
