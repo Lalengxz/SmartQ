@@ -1,11 +1,14 @@
 <?php
 session_start();
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include_once '../../config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
-    $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm = $_POST['confirm_password'];
@@ -19,32 +22,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $database = new Database();
     $db = $database->getConnection();
 
-    // Check if username exists
-    $stmt = $db->prepare("SELECT id FROM users WHERE username = :username");
-    $stmt->bindParam(':username', $username);
+    // Check if email exists in either admin or students table
+    $check_query = "SELECT email FROM admin WHERE email = :email UNION SELECT email FROM students WHERE email = :email";
+    $stmt = $db->prepare($check_query);
+    $stmt->bindParam(':email', $email);
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {
-        $_SESSION['error'] = "Username already exists";
+        $_SESSION['error'] = "Email already registered";
         header('Location: ../../../client/pages/signup.php');
         exit();
     }
 
+    // Hash password for security
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $stmt = $db->prepare("INSERT INTO users (firstname, lastname, username, email, password) VALUES (:firstname, :lastname, :username, :email, :password)");
+
+    // Insert into students table (matching real DB schema)
+    $query = "INSERT INTO students (first_name, last_name, email, student_pass, status_id, college_id) 
+              VALUES (:first_name, :last_name, :email, :password, 1, 1)";
     
-    $stmt->bindParam(':firstname', $firstname);
-    $stmt->bindParam(':lastname', $lastname);
-    $stmt->bindParam(':username', $username);
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':first_name', $firstname);
+    $stmt->bindParam(':last_name', $lastname);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':password', $hashed_password);
 
     if ($stmt->execute()) {
-        $_SESSION['success'] = "Account created successfully. Please login.";
+        $_SESSION['success'] = "Account created successfully! You can now login.";
         header('Location: ../../../client/pages/login.php');
         exit();
     } else {
-        $_SESSION['error'] = "There was an error creating your account. Please try again.";
+        $_SESSION['error'] = "Registration failed. Please try again.";
         header('Location: ../../../client/pages/signup.php');
         exit();
     }
