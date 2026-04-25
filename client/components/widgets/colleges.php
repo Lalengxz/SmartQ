@@ -11,11 +11,11 @@
 // Static sample data (replace with DB query later)
 $colleges = [
   ['name' => 'College of Technologies', 'abbr' => 'COT', 'students' => 30, 'color' => '#ff7d04ff'],
-  ['name' => 'College of Arts & Sciences', 'abbr' => 'CAS', 'students' => 10, 'color' => '#10b981'],
   ['name' => 'College of Nursing', 'abbr' => 'CON', 'students' => 65, 'color' => '#ec57eeff'],
   ['name' => 'College of Business', 'abbr' => 'COB', 'students' => 50, 'color' => '#fac800ff'],
   ['name' => 'College of Education', 'abbr' => 'COE', 'students' => 35, 'color' => '#1c5adf'],
   ['name' => 'College of Public Administrarion and Governance', 'abbr' => 'CPAG', 'students' => 35, 'color' => '#23c7c7ff'],
+  ['name' => 'College of Arts & Sciences', 'abbr' => 'CAS', 'students' => 10, 'color' => '#10b981'],
 ];
 
 $maxStudents = max(array_column($colleges, 'students'));
